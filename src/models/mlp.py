@@ -2,15 +2,15 @@ from torch import nn
 
 
 class MLP(nn.Module):
-    def __init__(self, n_input, n_hidden, n_output, n_layers):
+    def __init__(self, input_size, hidden_size, output_size, n_layers):
         super(MLP, self).__init__()
 
         self.main = nn.Sequential(
             *[nn.Sequential(
-                nn.Linear(n_input if i == 0 else n_hidden, n_hidden),
+                nn.Linear(input_size if i == 0 else hidden_size, hidden_size),
                 nn.ReLU()
             ) for i in range(n_layers)],
-            nn.Linear(n_hidden, n_output)
+            nn.Linear(hidden_size, output_size)
         )
 
     def forward(self, x):
