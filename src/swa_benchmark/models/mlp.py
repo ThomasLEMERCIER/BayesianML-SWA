@@ -1,6 +1,5 @@
 from torch import nn
 
-
 class MLP(nn.Module):
     def __init__(self, input_size, hidden_size, output_size, n_layers):
         super(MLP, self).__init__()

@@ -1,10 +1,9 @@
 from torch.utils.data import Dataset
 import torch
 
-class SyntheticDataset(Dataset):
-    def __init__(self, n_samples, n_features, interval=(-1, 1), noise=0.1):
+class SyntheticDataset2D(Dataset):
+    def __init__(self, n_samples, interval=(-1, 1), noise=0.1):
         self.n_samples = n_samples * n_samples
-        self.n_features = n_features
 
         linear_space = torch.linspace(interval[0], interval[1], n_samples)
         self.xv, self.yv = torch.meshgrid(linear_space, linear_space, indexing='ij')

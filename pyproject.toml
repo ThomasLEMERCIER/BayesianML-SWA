@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "swa_benchmark"
+version = "0.0.1"
+authors = [
+  { name="Thomas Lemercier", email="thomas.lemercier@student-cs.fr" },
+  { name="Clement Wang", email="clement.wang@student-cs.fr" },
+]
+description = "MVA - Bayesian Machine Learning projet - Averaging Weights Leads to Wider Optima and Better Generalization"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
