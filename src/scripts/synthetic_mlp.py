@@ -8,14 +8,16 @@ from torch.utils.data import DataLoader
 from torch.utils.data.dataset import random_split
 
 if __name__ == "__main__":
-    n_samples = 10 # the final dataset will have n_samples * n_samples samples
+
+
+    n_samples = 100 # the final dataset will have n_samples * n_samples samples
     n_features = 2 # the final dataset will have n_features features
     interval = (-2, 2) # the final dataset will have features in the interval (-2, 2)
     noise = 0.1 # the final dataset will have noise with a standard deviation of 0.1
 
-    batch_size = 4
+    batch_size = 32
 
-    hidden_size = 4
+    hidden_size = 16
     output_size = 1
     n_layers = 3
 
@@ -23,8 +25,8 @@ if __name__ == "__main__":
     ds_train, ds_test = random_split(dataset, [0.8, 0.2])
     print(f"Train dataset length: {len(ds_train)}, Test dataset length: {len(ds_test)}")
 
-    train_dl = DataLoader(ds_train, batch_size=batch_size, shuffle=True, num_workers=1)
-    test_dl = DataLoader(ds_test, batch_size=batch_size, num_workers=1, shuffle=False, drop_last=False)
+    train_dl = DataLoader(ds_train, batch_size=batch_size, shuffle=True, num_workers=0, pin_memory=True)
+    test_dl = DataLoader(ds_test, batch_size=batch_size, shuffle=False, drop_last=False, num_workers=0, pin_memory=True)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = MLP(input_size=n_features, hidden_size=hidden_size, output_size=output_size, n_layers=n_layers).to(device)
@@ -32,19 +34,20 @@ if __name__ == "__main__":
     print(f"Model parameters: {sum(p.numel() for p in model.parameters() if p.requires_grad)}, Training on {device}")
 
     epochs = 100
-    swa_length = 5
-    swa_start = 75
-    eta_max = 0.05
-    eta_min = 0.01
+    swa_length = 20
+    swa_start = 20
+    eta_max = 0.01
+    eta_min = 0.0001
 
     criterion = torch.nn.MSELoss()
-    optimizer = torch.optim.SGD(model.parameters(), lr=eta_max, momentum=0.9)
+    optimizer = torch.optim.SGD(model.parameters(), lr=eta_max, momentum=0.9, weight_decay=1e-4)
 
     training_scheduler = constantLR(epochs=swa_start, eta=eta_max, loader_length=len(train_dl))
     swa_scheduler = swaLinearLR(epochs=epochs-swa_start, eta_min=eta_min, eta_max=eta_max, loader_length=len(train_dl), swa_epoch_length=swa_length)
     scheduler = torch.tensor([*training_scheduler, *swa_scheduler])
 
     train(model, swa_model, train_dl, test_dl, criterion, optimizer, epochs, swa_length, swa_start, scheduler)
+
 
     swa_loss = eval(swa_model, test_dl, criterion)
     model_loss = eval(model, test_dl, criterion)

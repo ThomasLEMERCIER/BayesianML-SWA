@@ -25,7 +25,7 @@ def train(model, swa_model, train_dl, test_dl, criterion, optimizer, epochs, swa
 
         test_loss = eval(model, test_dl, criterion)
 
-        print(f"Epoch {e+1}/{epochs}, Test loss: {test_loss:.4f}, {' (SWA update) with learning rate at: ' + str(optimizer.param_groups[0]['lr']) if e > swa_start and (e+1) % swa_length == 0 else ''}")
+        print(f"Epoch {e+1}/{epochs}, Test loss: {test_loss:.4f}, {' (SWA update) with learning rate at: ' + str(optimizer.param_groups[0]['lr'].item()) if e > swa_start and (e+1) % swa_length == 0 else ''}")
     
     return test_loss
 
