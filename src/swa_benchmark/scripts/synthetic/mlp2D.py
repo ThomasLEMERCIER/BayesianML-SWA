@@ -48,6 +48,7 @@ if __name__ == "__main__":
 
     swa_model = MLP(input_size=n_features, hidden_size=hidden_size, output_size=output_size, n_layers=n_layers).to(device)
 
+    epochs = 100
     swa_length = 20
     swa_start = 0
 

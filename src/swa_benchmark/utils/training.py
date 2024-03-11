@@ -69,6 +69,8 @@ def swa_train(
         if e > swa_start and (e + 1) % swa_length == 0:
             update_swa(swa_model, model, swa_n)
             swa_n += 1
+            swa_loss = eval(swa_model, test_dl, criterion)
+            print(f"SWA test loss: {swa_loss:.4f}")
 
             if return_ensemble:
                 ensemble.add_copy(model)
