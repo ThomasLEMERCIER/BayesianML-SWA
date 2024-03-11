@@ -1,0 +1,59 @@
+Files already downloaded and verified
+Files already downloaded and verified
+Train dataset length: 50000, Test dataset length: 10000
+Epoch 1/20, Train loss: 1.6953, Test loss: 1.5920, Test metric: 0.4285, Time: 51.75 s
+Epoch 2/20, Train loss: 1.4089, Test loss: 1.2935, Test metric: 0.5309, Time: 37.10 s
+Epoch 3/20, Train loss: 1.2440, Test loss: 1.2287, Test metric: 0.5646, Time: 36.61 s
+Epoch 4/20, Train loss: 1.1413, Test loss: 1.2410, Test metric: 0.5746, Time: 40.87 s
+Epoch 5/20, Train loss: 1.0614, Test loss: 1.0207, Test metric: 0.6396, Time: 40.62 s
+Epoch 6/20, Train loss: 0.9994, Test loss: 0.9046, Test metric: 0.6844, Time: 41.18 s
+Epoch 7/20, Train loss: 0.9384, Test loss: 0.9497, Test metric: 0.6711, Time: 42.36 s
+Epoch 8/20, Train loss: 0.9011, Test loss: 1.0045, Test metric: 0.6572, Time: 40.35 s
+Epoch 9/20, Train loss: 0.8655, Test loss: 0.7900, Test metric: 0.7221, Time: 40.84 s
+Epoch 10/20, Train loss: 0.8264, Test loss: 0.8020, Test metric: 0.7211, Time: 40.93 s
+Epoch 11/20, Train loss: 0.7951, Test loss: 0.7594, Test metric: 0.7349, Time: 40.53 s
+Epoch 12/20, Train loss: 0.7650, Test loss: 0.7383, Test metric: 0.7368, Time: 40.72 s
+Epoch 13/20, Train loss: 0.7303, Test loss: 0.7085, Test metric: 0.7536, Time: 41.01 s
+Epoch 14/20, Train loss: 0.7073, Test loss: 0.6952, Test metric: 0.7551, Time: 40.69 s
+Epoch 15/20, Train loss: 0.6898, Test loss: 0.7239, Test metric: 0.7510, Time: 38.95 s
+Epoch 16/20, Train loss: 0.6629, Test loss: 0.6469, Test metric: 0.7734, Time: 39.12 s
+Epoch 17/20, Train loss: 0.6464, Test loss: 0.6341, Test metric: 0.7779, Time: 38.55 s
+Epoch 18/20, Train loss: 0.6265, Test loss: 0.6175, Test metric: 0.7860, Time: 38.52 s
+Epoch 19/20, Train loss: 0.6166, Test loss: 0.6230, Test metric: 0.7809, Time: 38.46 s
+Epoch 20/20, Train loss: 0.6078, Test loss: 0.6191, Test metric: 0.7843, Time: 39.20 s
+Epoch 1/12, Train loss: 0.5982, Test loss: 0.6126, Test metric: 0.7880, Time: 39.35 s
+Epoch 2/12, Train loss: 0.5969, Test loss: 0.6083, Test metric: 0.7895, Time: 39.16 s
+Epoch 3/12, Train loss: 0.5963, Test loss: 0.6079, Test metric: 0.7887, Time: 39.15 s
+SWA model test loss: 0.6111, SWA test metric: 0.7894, Learning rate: 0.0001
+Ensemble model test loss: 0.6111, Ensemble test metric: 0.7894
+Epoch 4/12, Train loss: 0.5968, Test loss: 0.6068, Test metric: 0.7894, Time: 39.36 s
+Epoch 5/12, Train loss: 0.5952, Test loss: 0.6065, Test metric: 0.7898, Time: 38.97 s
+Epoch 6/12, Train loss: 0.5939, Test loss: 0.6082, Test metric: 0.7890, Time: 38.92 s
+SWA model test loss: 0.6087, SWA test metric: 0.7886, Learning rate: 0.0001
+Ensemble model test loss: 0.6095, Ensemble test metric: 0.7888
+Epoch 7/12, Train loss: 0.5938, Test loss: 0.6058, Test metric: 0.7905, Time: 38.16 s
+Epoch 8/12, Train loss: 0.5897, Test loss: 0.6073, Test metric: 0.7904, Time: 39.21 s
+Epoch 9/12, Train loss: 0.5927, Test loss: 0.6053, Test metric: 0.7918, Time: 38.93 s
+SWA model test loss: 0.6077, SWA test metric: 0.7902, Learning rate: 0.0001
+Ensemble model test loss: 0.6086, Ensemble test metric: 0.7896
+Epoch 10/12, Train loss: 0.5888, Test loss: 0.6098, Test metric: 0.7906, Time: 37.69 s
+Epoch 11/12, Train loss: 0.5867, Test loss: 0.6059, Test metric: 0.7909, Time: 38.41 s
+Epoch 12/12, Train loss: 0.5906, Test loss: 0.6065, Test metric: 0.7901, Time: 39.13 s
+SWA model test loss: 0.6079, SWA test metric: 0.7884, Learning rate: 0.0001
+Ensemble model test loss: 0.6078, Ensemble test metric: 0.7894
+=====================================
+Pretrained model test loss: 0.619079, Model test loss: 0.606529, SWA model test loss: 0.607904
+Pretrained model test accuracy: 0.784349, Model test accuracy: 0.790117, SWA model test accuracy: 0.788405
+Ensemble model test loss: 0.607802, Ensemble model test accuracy: 0.789411
+=====================================
+First point: (0, 0)
+Second point: (0.090321, 0)
+Third point: (0.061901215, 0.007925111)
+First test: 0.0
+Second test: 4.656612873077393e-10
+Third test: 5.960464477539063e-08
+X max: 0.09032099694013596, X min: 0, X range: 0.09032099694013596, X interval: (-0.09032099694013596, 0.1806419938802719)  
+Y max: 0.00792511086910963, Y min: 0, Y range: 0.00792511086910963, Y interval: (-0.00792511086910963, 0.01585022173821926) 
+First point on grid: (1, 1)
+Second point on grid: (3, 1)
+Third point on grid: (2, 3)
