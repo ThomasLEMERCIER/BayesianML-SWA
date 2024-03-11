@@ -30,6 +30,7 @@ if __name__ == "__main__":
 
     input_size = 3
     output_size = 10
+    return_ensemble = True
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = MobileNetV2(
@@ -37,7 +38,7 @@ if __name__ == "__main__":
         output_size=output_size,
     ).to(device)
 
-    epochs = 100
+    epochs = 50
     eta_max = 0.001
     eta_min = 0.00005
 
@@ -70,7 +71,7 @@ if __name__ == "__main__":
         loader_length=len(train_dl),
         swa_epoch_length=swa_length,
     )
-    swa_train(
+    ensemble = swa_train(
         model,
         swa_model,
         train_dl,
@@ -81,6 +82,7 @@ if __name__ == "__main__":
         swa_length,
         swa_start,
         swa_scheduler,
+        return_ensemble=return_ensemble,
     )
 
     pretrained_model_loss = eval(pretrained_model, test_dl, criterion)
@@ -90,6 +92,9 @@ if __name__ == "__main__":
     print(
         f"Pretrained model test loss: {pretrained_model_loss:.4f}, Model test loss: {model_loss:.4f}, SWA model test loss: {swa_loss:.4f}"
     )
+    if return_ensemble:
+        ensemble_loss = eval(ensemble, test_dl, criterion)
+        print(f"Ensemble test loss: {ensemble_loss:.4f}")
 
     plot_loss_landspace(
         device,
