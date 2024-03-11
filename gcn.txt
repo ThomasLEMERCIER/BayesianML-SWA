@@ -1,0 +1,51 @@
+Train dataset length: 10000, Test dataset length: 1000
+Epoch 1/20, Train loss: 1.7921, Test loss: 1.7918, Test metric: 0.1671, Time: 13.03s
+Epoch 2/20, Train loss: 1.7918, Test loss: 1.7920, Test metric: 0.1673, Time: 7.16s
+Epoch 3/20, Train loss: 1.7872, Test loss: 1.7652, Test metric: 0.2097, Time: 7.03s
+Epoch 4/20, Train loss: 1.7386, Test loss: 1.7471, Test metric: 0.2364, Time: 9.71s
+Epoch 5/20, Train loss: 1.6982, Test loss: 1.6735, Test metric: 0.2972, Time: 7.69s
+Epoch 6/20, Train loss: 1.6779, Test loss: 1.6760, Test metric: 0.2906, Time: 8.18s
+Epoch 7/20, Train loss: 1.6719, Test loss: 1.6747, Test metric: 0.2955, Time: 8.21s
+Epoch 8/20, Train loss: 1.6716, Test loss: 1.6720, Test metric: 0.2938, Time: 8.09s
+Epoch 9/20, Train loss: 1.6704, Test loss: 1.6656, Test metric: 0.2987, Time: 8.85s
+Epoch 10/20, Train loss: 1.6678, Test loss: 1.6737, Test metric: 0.2917, Time: 9.51s
+Epoch 11/20, Train loss: 1.6667, Test loss: 1.6640, Test metric: 0.3021, Time: 7.45s
+Epoch 12/20, Train loss: 1.6653, Test loss: 1.6729, Test metric: 0.2934, Time: 7.59s
+Epoch 13/20, Train loss: 1.6645, Test loss: 1.6757, Test metric: 0.2906, Time: 7.20s
+Epoch 14/20, Train loss: 1.6636, Test loss: 1.6647, Test metric: 0.2995, Time: 7.20s
+Epoch 15/20, Train loss: 1.6621, Test loss: 1.6628, Test metric: 0.3004, Time: 7.24s
+Epoch 16/20, Train loss: 1.6611, Test loss: 1.6619, Test metric: 0.3025, Time: 7.12s
+Epoch 17/20, Train loss: 1.6608, Test loss: 1.6604, Test metric: 0.3042, Time: 7.18s
+Epoch 18/20, Train loss: 1.6591, Test loss: 1.6627, Test metric: 0.3042, Time: 7.28s
+Epoch 19/20, Train loss: 1.6586, Test loss: 1.6620, Test metric: 0.3014, Time: 7.19s
+Epoch 20/20, Train loss: 1.6588, Test loss: 1.6609, Test metric: 0.3050, Time: 7.32s
+Epoch 1/10, Train loss: 1.6573, Test loss: 1.6598, Test metric: 0.3042, Time: 7.10s
+Epoch 2/10, Train loss: 1.6572, Test loss: 1.6597, Test metric: 0.3047, Time: 7.09s
+SWA model test loss: 1.6597, SWA test metric: 0.3047, Learning rate: 0.0000
+Epoch 3/10, Train loss: 1.6572, Test loss: 1.6598, Test metric: 0.3042, Time: 7.05s
+Epoch 4/10, Train loss: 1.6570, Test loss: 1.6598, Test metric: 0.3050, Time: 7.02s
+SWA model test loss: 1.6598, SWA test metric: 0.3049, Learning rate: 0.0000
+Epoch 5/10, Train loss: 1.6572, Test loss: 1.6598, Test metric: 0.3046, Time: 7.10s
+Epoch 6/10, Train loss: 1.6571, Test loss: 1.6598, Test metric: 0.3050, Time: 7.03s
+SWA model test loss: 1.6598, SWA test metric: 0.3049, Learning rate: 0.0000
+Epoch 7/10, Train loss: 1.6572, Test loss: 1.6598, Test metric: 0.3044, Time: 7.11s
+Epoch 8/10, Train loss: 1.6571, Test loss: 1.6598, Test metric: 0.3049, Time: 7.12s
+SWA model test loss: 1.6598, SWA test metric: 0.3049, Learning rate: 0.0000
+Epoch 9/10, Train loss: 1.6572, Test loss: 1.6599, Test metric: 0.3046, Time: 7.27s
+Epoch 10/10, Train loss: 1.6572, Test loss: 1.6598, Test metric: 0.3049, Time: 7.11s
+SWA model test loss: 1.6598, SWA test metric: 0.3049, Learning rate: 0.0000
+=====================================
+Pretrained model test loss: 1.660918, Model test loss: 1.659778, SWA model test loss: 1.659771
+Pretrained model test accuracy: 0.305014, Model test accuracy: 0.304911, SWA model test accuracy: 0.304946
+=====================================
+First point: (0, 0)
+Second point: (0.0009281284, 0)
+Third point: (0.0006711627, 0.0001357695)
+First test: 0.0
+Second test: 0.0
+Third test: 1.4551915228366852e-11
+X max: 0.0009281283710151911, X min: 0, X range: 0.0009281283710151911, X interval: (-0.0009281283710151911, 0.0018562567420303822)
+Y max: 0.00013576950004789978, Y min: 0, Y range: 0.00013576950004789978, Y interval: (-0.00013576950004789978, 0.00027153900009579957)
+First point on grid: (1, 1)
+Second point on grid: (3, 1)
+Third point on grid: (3, 3)
