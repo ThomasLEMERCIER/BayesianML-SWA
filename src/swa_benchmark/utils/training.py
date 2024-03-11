@@ -4,7 +4,9 @@ import time
 from src.swa_benchmark.models import Ensembling
 
 
-def train(model, train_dl, test_dl, criterion, optimizer, epochs, scheduler):
+def train(
+    model, train_dl, test_dl, criterion, optimizer, epochs, scheduler, metric=None
+):
     device = next(model.parameters()).device
 
     test_loss = 0
@@ -23,11 +25,17 @@ def train(model, train_dl, test_dl, criterion, optimizer, epochs, scheduler):
             loss.backward()
             optimizer.step()
 
-        test_loss = eval(model, test_dl, criterion)
+        if metric is not None:
+            test_loss, test_metric = eval(model, test_dl, criterion, metric)
+        else:
+            test_loss = eval(model, test_dl, criterion)
 
         print(
             f"Epoch {e+1}/{epochs}, Test loss: {test_loss:.4f}, Time: {time.time() - start:.2f} s"
         )
+
+        if metric is not None:
+            print("Test metric: ", test_metric)
 
     return test_loss
 
@@ -44,6 +52,7 @@ def swa_train(
     swa_start,
     scheduler,
     return_ensemble=False,
+    metric=None,
 ):
     swa_n = 0
     device = next(model.parameters()).device
@@ -72,14 +81,28 @@ def swa_train(
 
             if return_ensemble:
                 ensemble.add_copy(model)
-                ensemble_test_loss = eval(ensemble, test_dl, criterion)
-                print(f"Ensemble test loss: {ensemble_test_loss:.4f}")
+                if metric is not None:
+                    ensemble_test_loss, ensemble_test_metric = eval(
+                        ensemble, test_dl, criterion, metric
+                    )
+                    print(
+                        f"Ensemble test loss: {ensemble_test_loss:.4f}, Ensemble test metric: {ensemble_test_metric:.4f}"
+                    )
+                else:
+                    ensemble_test_loss = eval(ensemble, test_dl, criterion)
+                    print(f"Ensemble test loss: {ensemble_test_loss:.4f}")
 
-        test_loss = eval(model, test_dl, criterion)
+        if metric is not None:
+            test_loss, test_metric = eval(model, test_dl, criterion, metric)
+        else:
+            test_loss = eval(model, test_dl, criterion, metric)
 
         print(
             f"Epoch {e+1}/{epochs}, Test loss: {test_loss:.4f}, Time: {time.time() - start:.2f} s, {' (SWA update) with learning rate at: ' + str(optimizer.param_groups[0]['lr'].item()) if e > swa_start and (e+1) % swa_length == 0 else ''}"
         )
+
+        if metric is not None:
+            print("Test metric: ", test_metric)
 
     swa_model.train()
     with torch.no_grad():
@@ -91,15 +114,24 @@ def swa_train(
         return ensemble
 
 
-def eval(model, test_dl, criterion):
+def eval(model, test_dl, criterion, metric=None):
     device = next(model.parameters()).device
 
     model.eval()
+    metric_value = 0
+
     with torch.no_grad():
         test_loss = 0
         for x, y in test_dl:
             x, y = x.to(device), y.to(device)
             y_pred = model(x)
             test_loss += criterion(y_pred, y)
+            if metric is not None:
+                metric_value += metric(y_pred, y)
         test_loss /= len(test_dl)
+
+    if metric is not None:
+        metric_value /= len(test_dl)
+        return test_loss, metric_value
+
     return test_loss
