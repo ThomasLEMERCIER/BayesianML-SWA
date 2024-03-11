@@ -4,6 +4,8 @@ from ...utils.training import train, swa_train, eval
 from ...utils.scheduler import cosineLR, swaLinearLR
 from ...utils.visualization import plot_loss_landspace
 from ...datasets import CIFAR100Dataset, CIFAR10Dataset
+from ...utils.metric import accuracy
+
 
 from torch.utils.data import DataLoader
 
@@ -47,7 +49,16 @@ if __name__ == "__main__":
     scheduler = cosineLR(
         epochs=epochs, eta_min=eta_min, eta_max=eta_max, loader_length=len(train_dl)
     )
-    train(model, train_dl, test_dl, criterion, optimizer, epochs, scheduler)
+    train(
+        model,
+        train_dl,
+        test_dl,
+        criterion,
+        optimizer,
+        epochs,
+        scheduler,
+        metric=accuracy,
+    )
 
     pretrained_model = MobileNetV2(
         input_size=input_size,
@@ -83,18 +94,28 @@ if __name__ == "__main__":
         swa_start,
         swa_scheduler,
         return_ensemble=return_ensemble,
+        metric=accuracy,
     )
 
-    pretrained_model_loss = eval(pretrained_model, test_dl, criterion)
-    model_loss = eval(model, test_dl, criterion)
-    swa_loss = eval(swa_model, test_dl, criterion)
+    pretrained_model_loss, pretrained_metric = eval(
+        pretrained_model, test_dl, criterion, metric=accuracy
+    )
+    model_loss, model_metric = eval(model, test_dl, criterion, metric=accuracy)
+    swa_loss, swa_metric = eval(swa_model, test_dl, criterion, metric=accuracy)
 
     print(
         f"Pretrained model test loss: {pretrained_model_loss:.4f}, Model test loss: {model_loss:.4f}, SWA model test loss: {swa_loss:.4f}"
     )
+    print(
+        f"Pretrained model test metric: {pretrained_metric:.4f}, Model test metric: {model_metric:.4f}, SWA model test metric: {swa_metric:.4f}"
+    )
     if return_ensemble:
-        ensemble_loss = eval(ensemble, test_dl, criterion)
-        print(f"Ensemble test loss: {ensemble_loss:.4f}")
+        ensemble_loss, ensemble_metric = eval(
+            ensemble, test_dl, criterion, metric=accuracy
+        )
+        print(
+            f"Ensemble test loss: {ensemble_loss:.4f}, Ensemble test metric: {ensemble_metric:.4f}"
+        )
 
     plot_loss_landspace(
         device,
