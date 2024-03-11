@@ -9,7 +9,7 @@ def cosineLR(epochs, eta_min, eta_max, loader_length):
 
     lr = eta_min + 0.5 * (eta_max - eta_min) * (
         1
-        + np.cos(steps / T_max * np.pi)
+        + np.cos(steps / (T_max - 1) * np.pi)
     )
 
     return lr
@@ -17,14 +17,14 @@ def cosineLR(epochs, eta_min, eta_max, loader_length):
 def linearLR(epochs, eta_min, eta_max, loader_length):
     steps = np.arange(0, epochs * loader_length)
 
-    lr = eta_max + (eta_min - eta_max) * steps / (epochs * loader_length)
+    lr = eta_max + (eta_min - eta_max) * steps / (epochs * loader_length - 1)
 
     return lr
 
 def swaLinearLR(epochs, eta_min, eta_max, loader_length, swa_epoch_length):
     steps = np.arange(0, swa_epoch_length * loader_length)
 
-    lr_swa = eta_max + (eta_min - eta_max) * steps / (swa_epoch_length * loader_length)
+    lr_swa = eta_max + (eta_min - eta_max) * steps / (swa_epoch_length * loader_length - 1)
     lr = np.tile(lr_swa, epochs // swa_epoch_length)
 
     return lr
@@ -35,7 +35,7 @@ def swaCosineLR(epochs, eta_min, eta_max, loader_length, swa_epoch_length):
 
     lr_swa = eta_min + 0.5 * (eta_max - eta_min) * (
         1
-        + np.cos(steps / T_max * np.pi)
+        + np.cos(steps / (T_max - 1) * np.pi)
     )
     lr = np.tile(lr_swa, epochs // swa_epoch_length)
 

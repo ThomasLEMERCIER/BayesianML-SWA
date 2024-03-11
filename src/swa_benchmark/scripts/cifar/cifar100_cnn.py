@@ -3,7 +3,7 @@ from ...models import CNN
 from ...utils.training import train, swa_train, eval
 from ...utils.scheduler import cosineLR, swaLinearLR
 from ...utils.visualization import plot_loss_landspace
-from ...datasets import MNISTDataset
+from ...datasets import CIFAR100Dataset, CIFAR10Dataset
 
 from torch.utils.data import DataLoader
 
@@ -13,7 +13,7 @@ if __name__ == "__main__":
 
     batch_size = 256
 
-    ds_train, ds_test = MNISTDataset(train=True), MNISTDataset(train=False)
+    ds_train, ds_test = CIFAR100Dataset(train=True), CIFAR100Dataset(train=False)
     print(f"Train dataset length: {len(ds_train)}, Test dataset length: {len(ds_test)}")
 
     train_dl = DataLoader(
@@ -28,9 +28,9 @@ if __name__ == "__main__":
         pin_memory=True,
     )
 
-    input_size = 1
+    input_size = 3
     hidden_size = 64
-    output_size = 10
+    output_size = 100
     n_layers = 3
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

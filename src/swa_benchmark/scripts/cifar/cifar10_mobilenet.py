@@ -1,9 +1,9 @@
 import torch
-from ...models import CNN
+from ...models import MobileNetV2
 from ...utils.training import train, swa_train, eval
 from ...utils.scheduler import cosineLR, swaLinearLR
 from ...utils.visualization import plot_loss_landspace
-from ...datasets import MNISTDataset
+from ...datasets import CIFAR100Dataset, CIFAR10Dataset
 
 from torch.utils.data import DataLoader
 
@@ -13,7 +13,7 @@ if __name__ == "__main__":
 
     batch_size = 256
 
-    ds_train, ds_test = MNISTDataset(train=True), MNISTDataset(train=False)
+    ds_train, ds_test = CIFAR10Dataset(train=True), CIFAR10Dataset(train=False)
     print(f"Train dataset length: {len(ds_train)}, Test dataset length: {len(ds_test)}")
 
     train_dl = DataLoader(
@@ -28,20 +28,16 @@ if __name__ == "__main__":
         pin_memory=True,
     )
 
-    input_size = 1
-    hidden_size = 64
+    input_size = 3
     output_size = 10
-    n_layers = 3
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = CNN(
+    model = MobileNetV2(
         input_size=input_size,
-        hidden_size=hidden_size,
         output_size=output_size,
-        n_layers=n_layers,
     ).to(device)
 
-    epochs = 5
+    epochs = 100
     eta_max = 0.001
     eta_min = 0.00005
 
@@ -52,19 +48,15 @@ if __name__ == "__main__":
     )
     train(model, train_dl, test_dl, criterion, optimizer, epochs, scheduler)
 
-    pretrained_model = CNN(
+    pretrained_model = MobileNetV2(
         input_size=input_size,
-        hidden_size=hidden_size,
         output_size=output_size,
-        n_layers=n_layers,
     ).to(device)
     pretrained_model.load_state_dict(model.state_dict())
 
-    swa_model = CNN(
+    swa_model = MobileNetV2(
         input_size=input_size,
-        hidden_size=hidden_size,
         output_size=output_size,
-        n_layers=n_layers,
     ).to(device)
 
     epochs = 15
