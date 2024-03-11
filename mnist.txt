@@ -1,0 +1,37 @@
+Train dataset length: 60000, Test dataset length: 10000
+Epoch 1/5, Train loss: 0.4695, Test loss: 0.1014, Test metric: 0.9676, Time: 17.43 s
+Epoch 2/5, Train loss: 0.0839, Test loss: 0.0633, Test metric: 0.9789, Time: 14.07 s
+Epoch 3/5, Train loss: 0.0541, Test loss: 0.0389, Test metric: 0.9876, Time: 14.22 s
+Epoch 4/5, Train loss: 0.0366, Test loss: 0.0346, Test metric: 0.9889, Time: 15.08 s
+Epoch 5/5, Train loss: 0.0246, Test loss: 0.0313, Test metric: 0.9910, Time: 13.86 s
+Epoch 1/12, Train loss: 0.0175, Test loss: 0.0308, Test metric: 0.9909, Time: 13.65 s
+Epoch 2/12, Train loss: 0.0172, Test loss: 0.0307, Test metric: 0.9906, Time: 15.18 s
+Epoch 3/12, Train loss: 0.0170, Test loss: 0.0307, Test metric: 0.9907, Time: 14.14 s
+SWA model test loss: 0.0307, SWA test metric: 0.9907, Learning rate: 0.0001
+Epoch 4/12, Train loss: 0.0171, Test loss: 0.0307, Test metric: 0.9906, Time: 12.85 s
+Epoch 5/12, Train loss: 0.0172, Test loss: 0.0306, Test metric: 0.9906, Time: 14.11 s
+Epoch 6/12, Train loss: 0.0169, Test loss: 0.0306, Test metric: 0.9906, Time: 14.59 s
+SWA model test loss: 0.0307, SWA test metric: 0.9906, Learning rate: 0.0001
+Epoch 7/12, Train loss: 0.0169, Test loss: 0.0306, Test metric: 0.9904, Time: 13.52 s
+Epoch 8/12, Train loss: 0.0168, Test loss: 0.0306, Test metric: 0.9905, Time: 13.44 s
+Epoch 9/12, Train loss: 0.0169, Test loss: 0.0306, Test metric: 0.9904, Time: 12.79 s
+SWA model test loss: 0.0306, SWA test metric: 0.9906, Learning rate: 0.0001
+Epoch 10/12, Train loss: 0.0168, Test loss: 0.0306, Test metric: 0.9904, Time: 12.56 s
+Epoch 11/12, Train loss: 0.0167, Test loss: 0.0306, Test metric: 0.9904, Time: 14.39 s
+Epoch 12/12, Train loss: 0.0167, Test loss: 0.0306, Test metric: 0.9904, Time: 17.00 s
+SWA model test loss: 0.0306, SWA test metric: 0.9906, Learning rate: 0.0001
+=====================================
+Pretrained model test loss: 0.031306, Model test loss: 0.030622, SWA model test loss: 0.030634
+Pretrained model test accuracy: 0.991002, Model test accuracy: 0.990416, SWA model test accuracy: 0.990611
+=====================================
+First point: (0, 0)
+Second point: (0.03270923, 0)
+Third point: (0.024026798, 0.0039091306)
+First test: 0.0
+Second test: 2.9103830456733704e-11
+Third test: 2.9802322387695312e-08
+X max: 0.03270922973752022, X min: 0, X range: 0.03270922973752022, X interval: (-0.03270922973752022, 0.06541845947504044)
+Y max: 0.003909130580723286, Y min: 0, Y range: 0.003909130580723286, Y interval: (-0.003909130580723286, 0.007818261161446571)
+First point on grid: (1, 1)
+Second point on grid: (3, 1)
+Third point on grid: (3, 3)
