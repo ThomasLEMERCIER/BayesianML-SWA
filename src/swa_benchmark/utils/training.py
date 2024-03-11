@@ -43,7 +43,7 @@ def train(train_dl, test_dl, optimizer, scheduler, criterion, model, epochs, dev
         train_loss = train_epoch(epoch, train_dl, optimizer, scheduler, criterion, model, device)
         test_loss, test_metric = test_epoch(test_dl, model, criterion, device, metric)
 
-        print(f"Epoch {epoch+1}/{epochs}, Train loss: {train_loss:.4f}, Test loss: {test_loss:.4f}{', Test metric: ' + format(test_metric, '.4f') if metric is not None else ''}, Time: {time.time() - start:.2f} s")
+        print(f"Epoch {epoch+1}/{epochs}, Train loss: {train_loss:.4f}, Test loss: {test_loss:.4f}{', Test metric: ' + format(test_metric, '.4f') if metric is not None else ''}, Time: {time.time() - start:.2f}s")
 
     return test_loss, test_metric
 
@@ -55,13 +55,80 @@ def swa_train(train_dl, test_dl, optimizer, scheduler, criterion, model, epochs,
         train_loss = train_epoch(epoch, train_dl, optimizer, scheduler, criterion, model, device)
         test_loss, test_metric = test_epoch(test_dl, model, criterion, device, metric)
 
-        print(f"Epoch {epoch+1}/{epochs}, Train loss: {train_loss:.4f}, Test loss: {test_loss:.4f}{', Test metric: ' + format(test_metric, '.4f') if metric is not None else ''}, Time: {time.time() - start:.2f} s")
+        print(f"Epoch {epoch+1}/{epochs}, Train loss: {train_loss:.4f}, Test loss: {test_loss:.4f}{', Test metric: ' + format(test_metric, '.4f') if metric is not None else ''}, Time: {time.time() - start:.2f}s")
 
         if epoch > 0 and (epoch+1) % swa_length == 0:
             update_swa(swa_model=swa_model, model=model, n=swa_n)
             swa_n += 1
 
             swa_loss, swa_metric = test_epoch(test_dl, swa_model, criterion, device, metric)
+            print(f"SWA model test loss: {swa_loss:.4f}{', SWA test metric: ' + format(swa_metric, '.4f') if metric is not None else ''}, Learning rate: {optimizer.param_groups[0]['lr'].item():.4f}")
+
+    return test_loss, test_metric
+
+def train_epoch_graph(epoch, train_dl, optimizer, scheduler, criterion, model, device):
+    model.train()
+    train_loss = 0
+    for it, data in enumerate(train_dl):
+        itx = epoch * len(train_dl) + it
+        for param_group in optimizer.param_groups:
+            param_group['lr'] = scheduler[itx]
+        x = data.x.to(device)
+        edge_index = data.edge_index.to(device)
+        y = data.y.to(device)
+
+        optimizer.zero_grad()
+        y_pred = model(x, edge_index)
+        loss = criterion(y_pred, y)
+        loss.backward()
+        optimizer.step()
+        train_loss += loss.item()
+    train_loss /= len(train_dl)
+    return train_loss
+
+def test_epoch_graph(test_dl, model, criterion, device, metric=None):
+    model.eval()
+    with torch.no_grad():
+        test_loss = 0
+        metric_value = 0
+        for data in test_dl:
+            x = data.x.to(device)
+            edge_index = data.edge_index.to(device)
+            y = data.y.to(device)
+
+            y_pred = model(x, edge_index)
+            loss = criterion(y_pred, y)
+            test_loss += loss.item()
+            if metric is not None:
+                metric_value += metric(y_pred, y)
+    test_loss /= len(test_dl)
+    metric_value /= len(test_dl)
+    return test_loss, metric_value
+
+def train_graph(train_dl, test_dl, optimizer, scheduler, criterion, model, epochs, device, metric=None):
+    for epoch in range(epochs):
+        start = time.time()
+        train_loss = train_epoch_graph(epoch, train_dl, optimizer, scheduler, criterion, model, device)
+        test_loss, test_metric = test_epoch_graph(test_dl, model, criterion, device, metric)
+
+        print(f"Epoch {epoch+1}/{epochs}, Train loss: {train_loss:.4f}, Test loss: {test_loss:.4f}{', Test metric: ' + format(test_metric, '.4f') if metric is not None else ''}, Time: {time.time() - start:.2f}s")
+
+    return test_loss, test_metric
+
+def swa_train_graph(train_dl, test_dl, optimizer, scheduler, criterion, model, epochs, swa_model, swa_length, device, metric=None):
+    swa_n = 0
+    for epoch in range(epochs):
+        start = time.time()
+        train_loss = train_epoch_graph(epoch, train_dl, optimizer, scheduler, criterion, model, device)
+        test_loss, test_metric = test_epoch_graph(test_dl, model, criterion, device, metric)
+
+        print(f"Epoch {epoch+1}/{epochs}, Train loss: {train_loss:.4f}, Test loss: {test_loss:.4f}{', Test metric: ' + format(test_metric, '.4f') if metric is not None else ''}, Time: {time.time() - start:.2f}s")
+
+        if epoch > 0 and (epoch+1) % swa_length == 0:
+            update_swa(swa_model=swa_model, model=model, n=swa_n)
+            swa_n += 1
+
+            swa_loss, swa_metric = test_epoch_graph(test_dl, swa_model, criterion, device, metric)
             print(f"SWA model test loss: {swa_loss:.4f}{', SWA test metric: ' + format(swa_metric, '.4f') if metric is not None else ''}, Learning rate: {optimizer.param_groups[0]['lr'].item():.4f}")
 
     return test_loss, test_metric

@@ -3,14 +3,17 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 import torch
 
-from ..utils.training import test_epoch
+from ..utils.training import test_epoch, test_epoch_graph
 
-def eval(model, dl, criterion, device):
-    loss, _ = test_epoch(dl, model, criterion, device)
+def eval(model, dl, criterion, device, is_graph=False):
+    if is_graph:
+        loss, _ = test_epoch_graph(dl, model, criterion, device)
+    else:
+        loss, _ = test_epoch(dl, model, criterion, device)
     return loss
 
 
-def plot_loss_landspace(models, criterion, train_dl, test_dl, device, n_points=10, point_names=[r"$w_1$", r"$w_2$", r"$w_3$"]):
+def plot_loss_landspace(models, criterion, train_dl, test_dl, device, n_points=10, point_names=[r"$w_1$", r"$w_2$", r"$w_3$"], is_graph=False):
     model_1, model_2, model_3 = models
     weights_1 = [p.data.detach().cpu().numpy() for p in model_1.parameters()]
     weights_2 = [p.data.detach().cpu().numpy() for p in model_2.parameters()]
@@ -75,8 +78,8 @@ def plot_loss_landspace(models, criterion, train_dl, test_dl, device, n_points=1
             for p, w_ in zip(model_1.parameters(), w):
                 p.data = torch.tensor(w_).reshape(p.shape).to(device)   
 
-            z_test[i, j] = eval(model_1, test_dl, criterion, device)
-            z_train[i, j] = eval(model_1, train_dl, criterion, device)
+            z_test[i, j] = eval(model_1, test_dl, criterion, device, is_graph)
+            z_train[i, j] = eval(model_1, train_dl, criterion, device, is_graph)
 
             if i == first_point_on_grid[0] and j == first_point_on_grid[1]:
                 value_on_first_point = z_test[i, j]
