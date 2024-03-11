@@ -11,6 +11,7 @@ def train(model, train_dl, test_dl, criterion, optimizer, epochs, scheduler):
     for e in range(epochs):
         model.train()
         start = time.time()
+        train_loss = 0
         for it, (x, y) in enumerate(train_dl):
             itx = it + e * len(train_dl)
             for param_group in optimizer.param_groups:
@@ -22,11 +23,13 @@ def train(model, train_dl, test_dl, criterion, optimizer, epochs, scheduler):
             loss = criterion(y_pred, y)
             loss.backward()
             optimizer.step()
+            train_loss += loss.item()
 
+        train_loss /= len(train_dl)
         test_loss = eval(model, test_dl, criterion)
 
         print(
-            f"Epoch {e+1}/{epochs}, Test loss: {test_loss:.4f}, Time: {time.time() - start:.2f} s"
+            f"Epoch {e+1}/{epochs}, Train loss: {train_loss:.4f}, Test loss: {test_loss:.4f}, Time: {time.time() - start:.2f} s"
         )
 
     return test_loss
@@ -54,6 +57,7 @@ def swa_train(
     for e in range(epochs):
         model.train()
         start = time.time()
+        train_loss = 0
         for it, (x, y) in enumerate(train_dl):
             itx = it + e * len(train_dl)
             for param_group in optimizer.param_groups:
@@ -65,6 +69,7 @@ def swa_train(
             loss = criterion(y_pred, y)
             loss.backward()
             optimizer.step()
+            train_loss += loss.item()
 
         if e > swa_start and (e + 1) % swa_length == 0:
             update_swa(swa_model, model, swa_n)
@@ -77,10 +82,11 @@ def swa_train(
                 ensemble_test_loss = eval(ensemble, test_dl, criterion)
                 print(f"Ensemble test loss: {ensemble_test_loss:.4f}")
 
+        train_loss /= len(train_dl)
         test_loss = eval(model, test_dl, criterion)
 
         print(
-            f"Epoch {e+1}/{epochs}, Test loss: {test_loss:.4f}, Time: {time.time() - start:.2f} s, {' (SWA update) with learning rate at: ' + str(optimizer.param_groups[0]['lr'].item()) if e > swa_start and (e+1) % swa_length == 0 else ''}"
+            f"Epoch {e+1}/{epochs}, Train loss: {train_loss:.4f}, Test loss: {test_loss:.4f}, Time: {time.time() - start:.2f} s, {' (SWA update) with learning rate at: ' + str(optimizer.param_groups[0]['lr'].item()) if e > swa_start and (e+1) % swa_length == 0 else ''}"
         )
 
     swa_model.train()

@@ -5,7 +5,7 @@ import torch
 
 from ..utils.training import eval
 
-def plot_loss_landspace(device, model_1, model_2, model_3, criterion, test_dl, train_dl, z_max=10, n_points=10, point_names=[r"$w_1$", r"$w_2$", r"$w_3$"]):
+def plot_loss_landspace(device, model_1, model_2, model_3, criterion, test_dl, train_dl, n_points=10, point_names=[r"$w_1$", r"$w_2$", r"$w_3$"]):
     weights_1 = [p.data.detach().cpu().numpy() for p in model_1.parameters()]
     weights_2 = [p.data.detach().cpu().numpy() for p in model_2.parameters()]
     weights_3 = [p.data.detach().cpu().numpy() for p in model_3.parameters()]
@@ -72,33 +72,48 @@ def plot_loss_landspace(device, model_1, model_2, model_3, criterion, test_dl, t
             z_test[i, j] = eval(model_1, test_dl, criterion)
             z_train[i, j] = eval(model_1, train_dl, criterion)
 
-    mask_test = z_test > z_max
-    mask_train = z_train > z_max
+            if i == first_point_on_grid[0] and j == first_point_on_grid[1]:
+                value_on_first_point = z_test[i, j]
+            if i == second_point_on_grid[0] and j == second_point_on_grid[1]:
+                value_on_second_point = z_test[i, j]
+            if i == third_point_on_grid[0] and j == third_point_on_grid[1]:
+                value_on_third_point = z_test[i, j]
 
-    z_test[mask_test] = z_max
-    z_train[mask_train] = z_max
+    z_max = max(value_on_first_point, value_on_second_point, value_on_third_point)
+    z_min = min(value_on_first_point, value_on_second_point, value_on_third_point)
+
+    z_threshold = z_max + (z_max - z_min) * 0.5
+
+    mask_test = z_test > z_threshold
+    mask_train = z_train > z_threshold
+
+    z_test[mask_test] = z_threshold
+    z_train[mask_train] = z_threshold
+
+    z_test = z_test / z_threshold
+    z_train = z_train / z_threshold
     
     plt.subplot(1, 2, 1)
     plt.imshow(z_train, origin="lower", interpolation="lanczos", cmap=cm.jet)
+    plt.colorbar()
     plt.scatter([first_point_on_grid[0]], [first_point_on_grid[1]], label=point_names[0])
     plt.scatter([second_point_on_grid[0]], [second_point_on_grid[1]], label=point_names[1])
     plt.scatter([third_point_on_grid[0]], [third_point_on_grid[1]], label=point_names[2])
     plt.legend()
     plt.xticks(np.linspace(0, n_points-1, 5), np.round(np.linspace(-x_range, x_range * 2, 5), 2))
     plt.yticks(np.linspace(0, n_points-1, 5), np.round(np.linspace(-y_range, y_range * 2, 5), 2))
-    plt.colorbar()
     plt.title("Loss landscape (train)")
     plt.xlabel("u")
     plt.ylabel("v")
     plt.subplot(1, 2, 2)
     plt.imshow(z_test, origin="lower", interpolation="lanczos", cmap=cm.jet)
+    plt.colorbar()
     plt.scatter([first_point_on_grid[0]], [first_point_on_grid[1]], label=point_names[0])
     plt.scatter([second_point_on_grid[0]], [second_point_on_grid[1]], label=point_names[1])
     plt.scatter([third_point_on_grid[0]], [third_point_on_grid[1]], label=point_names[2])
     plt.legend()
     plt.xticks(np.linspace(0, n_points-1, 5), np.round(np.linspace(-x_range, x_range * 2, 5), 2))
     plt.yticks(np.linspace(0, n_points-1, 5), np.round(np.linspace(-y_range, y_range * 2, 5), 2))
-    plt.colorbar()
     plt.title("Loss landscape (test)")
     plt.xlabel("u")
     plt.ylabel("v")

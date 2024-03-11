@@ -13,12 +13,12 @@ import matplotlib.pyplot as plt
 if __name__ == "__main__":
 
 
-    n_samples = 100 # the final dataset will have n_samples * n_samples samples
+    n_samples = 75 # the final dataset will have n_samples * n_samples samples
     n_features = 2 # the final dataset will have n_features features
     interval = (-2, 2) # the final dataset will have features in the interval (-2, 2)
     noise = 0.1 # the final dataset will have noise with a standard deviation of 0.1
 
-    batch_size = 32
+    batch_size = 4
 
     hidden_size = 16
     output_size = 1
@@ -29,14 +29,14 @@ if __name__ == "__main__":
     print(f"Train dataset length: {len(ds_train)}, Test dataset length: {len(ds_test)}")
 
     train_dl = DataLoader(ds_train, batch_size=batch_size, shuffle=True, num_workers=0, pin_memory=True)
-    test_dl = DataLoader(ds_test, batch_size=batch_size, shuffle=False, drop_last=False, num_workers=0, pin_memory=True)
+    test_dl = DataLoader(ds_test, batch_size=len(ds_test), shuffle=False, drop_last=False, num_workers=0, pin_memory=True)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = MLP(input_size=n_features, hidden_size=hidden_size, output_size=output_size, n_layers=n_layers).to(device)
 
-    epochs = 100
-    eta_max = 0.001
-    eta_min = 0.00005
+    epochs = 40
+    eta_max = 0.01
+    eta_min = 0.0001
 
     criterion = torch.nn.MSELoss()
     optimizer = torch.optim.SGD(model.parameters(), lr=eta_max, weight_decay=1e-4)
@@ -49,7 +49,9 @@ if __name__ == "__main__":
     swa_model = MLP(input_size=n_features, hidden_size=hidden_size, output_size=output_size, n_layers=n_layers).to(device)
 
     epochs = 100
-    swa_length = 20
+    eta_max = 0.001
+    eta_min = 0.00005
+    swa_length = 5
     swa_start = 0
 
     swa_scheduler = swaLinearLR(epochs=epochs-swa_start, eta_min=eta_min, eta_max=eta_max, loader_length=len(train_dl), swa_epoch_length=swa_length)
