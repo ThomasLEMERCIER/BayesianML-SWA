@@ -1,0 +1,1 @@
+# MVA - Bayesien Machine Learning Project - Averaging Weights Leads to Wider Optima and Better Generalization
