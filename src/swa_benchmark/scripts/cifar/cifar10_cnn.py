@@ -15,7 +15,9 @@ if __name__ == "__main__":
 
     batch_size = 256
 
-    ds_train, ds_test = CIFAR10Dataset(train=True), CIFAR10Dataset(train=False)
+    ds_train, ds_test = CIFAR10Dataset(
+        train=True, data_augmentation=False
+    ), CIFAR10Dataset(train=False)
     print(f"Train dataset length: {len(ds_train)}, Test dataset length: {len(ds_test)}")
 
     train_dl = DataLoader(
@@ -83,6 +85,7 @@ if __name__ == "__main__":
     eta_max = 0.001
     eta_min = 0.0001
     swa_length = 3
+    return_ensemble = True
 
     optimizer = torch.optim.SGD(model.parameters(), lr=eta_max, weight_decay=1e-4)
     swa_scheduler = swaLinearLR(
@@ -92,7 +95,7 @@ if __name__ == "__main__":
         loader_length=len(train_dl),
         swa_epoch_length=swa_length,
     )
-    swa_train(
+    _, _, ensemble_model = swa_train(
         train_dl=train_dl,
         test_dl=test_dl,
         optimizer=optimizer,
@@ -104,6 +107,9 @@ if __name__ == "__main__":
         swa_length=swa_length,
         device=device,
         metric=accuracy,
+        return_ensemble=return_ensemble,
+        softmax_ensemble=True,
+        bn_update=True,
     )
 
     pretrained_loss, pretrained_metric = test_epoch(
@@ -119,6 +125,14 @@ if __name__ == "__main__":
     print(
         f"Pretrained model test accuracy: {pretrained_metric:.6f}, Model test accuracy: {model_metric:.6f}, SWA model test accuracy: {swa_metric:.6f}"
     )
+    if return_ensemble:
+        ensemble_loss, ensemble_metric = test_epoch(
+            test_dl, ensemble_model, criterion, device, accuracy
+        )
+        print(
+            f"Ensemble model test loss: {ensemble_loss:.6f}, Ensemble model test accuracy: {ensemble_metric:.6f}"
+        )
+
     print("=====================================")
 
     plot_loss_landspace(
