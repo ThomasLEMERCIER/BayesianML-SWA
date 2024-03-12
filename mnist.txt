@@ -1,0 +1,42 @@
+Train dataset length: 60000, Test dataset length: 10000
+Epoch 1/5, Train loss: 0.6681, Test loss: 0.1501, Test metric: 0.9513, Time: 19.86 s
+Epoch 2/5, Train loss: 0.1222, Test loss: 0.0732, Test metric: 0.9772, Time: 8.78 s
+Epoch 3/5, Train loss: 0.0789, Test loss: 0.0527, Test metric: 0.9839, Time: 9.03 s
+Epoch 4/5, Train loss: 0.0579, Test loss: 0.0497, Test metric: 0.9839, Time: 8.58 s
+Epoch 5/5, Train loss: 0.0430, Test loss: 0.0473, Test metric: 0.9849, Time: 8.95 s
+Epoch 1/12, Train loss: 0.0356, Test loss: 0.0449, Test metric: 0.9852, Time: 8.81 s
+Epoch 2/12, Train loss: 0.0348, Test loss: 0.0446, Test metric: 0.9851, Time: 8.93 s
+Epoch 3/12, Train loss: 0.0345, Test loss: 0.0446, Test metric: 0.9851, Time: 9.00 s
+SWA model test loss: 0.0446, SWA test metric: 0.9851, Learning rate: 0.0001
+Ensemble model test loss: 0.0446, Ensemble test metric: 0.9851
+Epoch 4/12, Train loss: 0.0345, Test loss: 0.0446, Test metric: 0.9852, Time: 8.79 s
+Epoch 5/12, Train loss: 0.0343, Test loss: 0.0445, Test metric: 0.9852, Time: 8.17 s
+Epoch 6/12, Train loss: 0.0342, Test loss: 0.0445, Test metric: 0.9852, Time: 8.98 s
+SWA model test loss: 0.0445, SWA test metric: 0.9851, Learning rate: 0.0001
+Ensemble model test loss: 0.0446, Ensemble test metric: 0.9851
+Epoch 7/12, Train loss: 0.0344, Test loss: 0.0445, Test metric: 0.9850, Time: 9.05 s
+Epoch 8/12, Train loss: 0.0341, Test loss: 0.0445, Test metric: 0.9850, Time: 9.00 s
+Epoch 9/12, Train loss: 0.0340, Test loss: 0.0445, Test metric: 0.9850, Time: 8.96 s
+SWA model test loss: 0.0445, SWA test metric: 0.9851, Learning rate: 0.0001
+Ensemble model test loss: 0.0445, Ensemble test metric: 0.9851
+Epoch 10/12, Train loss: 0.0340, Test loss: 0.0445, Test metric: 0.9849, Time: 8.43 s
+Epoch 11/12, Train loss: 0.0339, Test loss: 0.0445, Test metric: 0.9851, Time: 9.05 s
+Epoch 12/12, Train loss: 0.0338, Test loss: 0.0446, Test metric: 0.9850, Time: 8.62 s
+SWA model test loss: 0.0445, SWA test metric: 0.9851, Learning rate: 0.0001
+Ensemble model test loss: 0.0445, Ensemble test metric: 0.9851
+=====================================
+Pretrained model test loss: 0.047313, Model test loss: 0.044569, SWA model test loss: 0.044530
+Pretrained model test accuracy: 0.984873, Model test accuracy: 0.985039, SWA model test accuracy: 0.985136
+Ensemble model test loss: 0.044537, Ensemble model test accuracy: 0.985136
+=====================================
+First point: (0, 0)
+Second point: (0.04796957, 0)
+Third point: (0.03693112, 0.0066813338)
+First test: 0.0
+Second test: 1.1641532182693481e-10
+Third test: 2.9802322387695312e-08
+X max: 0.04796956852078438, X min: 0, X range: 0.04796956852078438, X interval: (-0.04796956852078438, 0.09593913704156876) 
+Y max: 0.006681333761662245, Y min: 0, Y range: 0.006681333761662245, Y interval: (-0.006681333761662245, 0.01336266752332449)
+First point on grid: (1, 1)
+Second point on grid: (3, 1)
+Third point on grid: (3, 3)
