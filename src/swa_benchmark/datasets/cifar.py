@@ -1,4 +1,8 @@
 from torchvision.datasets import CIFAR10, CIFAR100
+import torchvision
+
+torchvision.disable_beta_transforms_warning()
+
 import torchvision.transforms.v2 as transforms
 import torch
 
