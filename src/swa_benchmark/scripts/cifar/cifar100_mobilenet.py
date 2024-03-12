@@ -1,5 +1,5 @@
 import torch
-from ...models import CNN
+from ...models import MobileNetV2
 from ...utils.training import train, swa_train, test_epoch
 from ...utils.scheduler import cosineLR, swaLinearLR
 from ...utils.visualization import plot_loss_landspace
@@ -33,18 +33,10 @@ if __name__ == "__main__":
     )
 
     input_size = 3
-    hidden_size = 32
-    output_size = 10
-    n_layers = 3
     output_size = 100
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = CNN(
-        input_size=input_size,
-        hidden_size=hidden_size,
-        output_size=output_size,
-        n_layers=n_layers,
-    ).to(device)
+    model = MobileNetV2(input_size=input_size, output_size=output_size).to(device)
 
     epochs = 20
     eta_max = 0.01
@@ -67,20 +59,12 @@ if __name__ == "__main__":
         metric=accuracy,
     )
 
-    pretrained_model = CNN(
-        input_size=input_size,
-        hidden_size=hidden_size,
-        output_size=output_size,
-        n_layers=n_layers,
-    ).to(device)
+    pretrained_model = MobileNetV2(input_size=input_size, output_size=output_size).to(
+        device
+    )
     pretrained_model.load_state_dict(model.state_dict())
 
-    swa_model = CNN(
-        input_size=input_size,
-        hidden_size=hidden_size,
-        output_size=output_size,
-        n_layers=n_layers,
-    ).to(device)
+    swa_model = MobileNetV2(input_size=input_size, output_size=output_size).to(device)
 
     swa_epochs = 12
     eta_max = 0.001
