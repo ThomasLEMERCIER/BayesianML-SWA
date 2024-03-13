@@ -23,13 +23,13 @@ You might want to install PyTorch with CUDA support. To do so, follow the instru
 All scripts are located in the `src/swa_benchmark/scripts` folder. To run the experiments, you can use the following commands:
 
 ```bash
-python -m swa_benchmark.scripts.${dataset_name}.${script_name}
+python -m src.swa_benchmark.scripts.${dataset_name}.${script_name}
 ```
 where `${dataset_name}` is one of `cifar`, `mnist`, `Cluster` and `synthetic`.
 
 For example, to run the experiments on CIFAR-10 with MobileNet V2, you can use the following command:
 
 ```bash
-python -m swa_benchmark.scripts.cifar.cifar100_mobilenet
+python -m src.swa_benchmark.scripts.cifar.cifar100_mobilenet
 ```
 
